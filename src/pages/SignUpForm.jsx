@@ -11,6 +11,7 @@ const SignUpForm = () => {
     password: '',
     country: '',
     gender: '',
+  
   });
 
   const [errors, setErrors] = useState({});
