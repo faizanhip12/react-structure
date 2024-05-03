@@ -1,61 +1,49 @@
 /* SignUpForm.css */
 
-.form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.signup-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.signup-form input,
+.signup-form select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.signup-form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+  font-size: 0.8em;
+}
+
+/* Responsive Styling */
+@media only screen and (max-width: 600px) {
+  .signup-form {
+    max-width: 90%;
   }
-  
-  .form-field {
-    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 400px) {
+  .signup-form input,
+  .signup-form select,
+  .signup-form button {
+    padding: 8px;
   }
-  
-  .label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .select-field {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .radio-container {
-    margin-bottom: 20px;
-  }
-  
-  .radio-label {
-    margin-right: 10px;
-    font-weight: normal;
-    color: #333;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .error-message {
-    color: red;
-    font-size: 12px;
-  }
-  
+}

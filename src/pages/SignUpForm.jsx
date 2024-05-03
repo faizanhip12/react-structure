@@ -1,146 +1,76 @@
 // SignUpForm.tsx
 
 import React, { useState } from 'react';
-import FormField from '../components/FormField';
+import { useForm } from "react-hook-form";
+import { signUp } from '../utils/authApi'; // Import signUp function from authApi
 import '../styles/SignUpForm.css'; // Import CSS file for styling
 
 const SignUpForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    country: '',
-    gender: '',
-  
-  });
+  const { handleSubmit, register, formState: { errors } } = useForm();
+  const [signupError, setSignupError] = useState(null); // State to hold sign-up error
 
-  const [errors, setErrors] = useState({});
-
-  const handleSubmit = async (e) => {
-    console.log("handleSubmithandleSubmithandleSubmithandleSubmit")
-    e.preventDefault();
-
-    // Perform form validation
-    const validationErrors= {};
-    if (!formData.username.trim()) {
-      validationErrors.username = 'Username is required';
-    }
-    if (!formData.email.trim()) {
-      validationErrors.email = 'Email is required';
-    }
-    if (!formData.password.trim()) {
-      validationErrors.password = 'Password is required';
-    }
-    if (!formData.country.trim()) {
-      validationErrors.country = 'Country is required';
-    }
-    if (!formData.gender.trim()) {
-      validationErrors.gender = 'Gender is required';
-    }
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    // If validation passes, submit the form data to the API (replace with actual API call)
+  // Handle form submission
+  const onSubmit = async (formData) => {
     try {
-      const response = await fetch('YOUR_API_ENDPOINT', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        console.log('Form submitted successfully');
-        // Reset form data after successful submission
-        setFormData({
-          username: '',
-          email: '',
-          password: '',
-          country: '',
-          gender: '',
-        });
-        setErrors({});
-      } else {
-        console.error('Failed to submit form');
-      }
+      const response = await signUp(formData); // Call signUp API function
+      console.log('Sign up successful:', response);
+      // Handle successful sign-up, such as redirecting to another page
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Sign up failed:', error);
+      setSignupError(error.message); // Set sign-up error message
     }
-  };
-
-  const handleChange = (e) => {
-    console.log("e",e)
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <FormField
-          label="Username"
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          className="form-field"
-          errorMessage={errors.username}
-        />
-        <FormField
-          label="Email"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="form-field"
-          errorMessage={errors.email}
-        />
-        <FormField
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="form-field"
-          errorMessage={errors.password}
-        />
-        <FormField
-          label="Country"
-          type="select"
-          name="country"
-          options={['', 'USA', 'Canada', 'UK', 'Australia']}
-          value={formData.country}
-          onChange={handleChange}
-          className="form-field select-field"
-          errorMessage={errors.country}
-        />
-        <div className="form-field radio-container">
-          <span className="label">Gender:</span>
-          {['Male', 'Female', 'Other'].map((option) => (
-            <label key={option} className="radio-label">
-              <input
-                type="radio"
-                name="gender"
-                value={option}
-                checked={formData.gender === option}
-                onChange={handleChange}
-              />{' '}
-              {option}
-            </label>
-          ))}
-          {errors.gender && <span className="error-message">{errors.gender}</span>}
-        </div>
-        <button type="submit" className="submit-button">
-          Sign Up
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
+      <input
+        type="text"
+        placeholder="Username"
+        {...register("username", {
+          required: "Username is required",
+        })}
+      />
+      {errors.username && <p className="error-message">{errors.username.message}</p>}
+
+
+      <input
+        type="email"
+        placeholder="Email"
+        {...register("email", {
+          required: "Email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "Invalid email address"
+          }
+        })}
+      />
+      {errors.email && <p className="error-message">{errors.email.message}</p>}
+
+      <input
+        type="password"
+        placeholder="Password"
+        {...register("password", {
+          required: "Password is required",
+          minLength: {
+            value: 6,
+            message: "Password must be at least 6 characters"
+          }
+        })}
+      />
+      {errors.password && <p className="error-message">{errors.password.message}</p>}
+
+      <select {...register("role", { required: "Please select your role" })}>
+        <option value="">Select Role</option>
+        <option value="ADMIN">Admin</option>
+        <option value="USER">User</option>
+      </select>
+      {errors.role && <p className="error-message">{errors.role.message}</p>}
+
+      {signupError && <p className="error-message">{signupError}</p>} {/* Display sign-up error message */}
+
+      <button type="submit">Sign Up</button>
+    </form>
   );
-};
+}
 
 export default SignUpForm;
