@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
+import {useAuth} from '../context/AuthContext'
 import { useForm } from "react-hook-form";
-import {signUp} from '../utils/authApi'
+import {signIn} from '../utils/authApi'
 import '../styles/SignInForm.css'; // Import CSS file for styling
 
 
@@ -9,12 +10,14 @@ import '../styles/SignInForm.css'; // Import CSS file for styling
 const SignInForm = () => {
   const { handleSubmit, register, formState: { errors } } = useForm();
   const [loginError, setLoginError] = useState(null); // State to hold login error
+  const {login} =useAuth()
 
   // Handle form submission
   const onSubmit = async (formData) => {
     try {
-      const response = await signUp(formData); // Call login API function
-      console.log('Login successful:', response);
+      const response = await signIn(formData); // Call login API function
+      console.log('Login successful:', response.data);
+      login({username:response.data.username,email:response.data.email},response.data.accessToken)
       // Handle successful login, such as setting user session or redirecting
     } catch (error) {
       console.error('Login failed:', error);

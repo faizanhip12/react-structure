@@ -3,7 +3,7 @@
 import axios from './axiosInterceptor';
 
 // API endpoint URLs
-const API_URL = 'http://localhost:4000/api/v1';
+const API_URL = 'http://localhost:8080/api/v1';
 const SIGNUP_URL = `${API_URL}/auth/signup`;
 const LOGIN_URL = `${API_URL}/auth/signin`;
 
@@ -18,7 +18,7 @@ export const signUp = async (userData) => {
 };
 
 // Function to log in a user
-export const login = async (credentials) => {
+export const signIn = async (credentials) => {
   try {
     const response = await axios.post(LOGIN_URL, credentials);
     return response.data;
