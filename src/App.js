@@ -15,6 +15,16 @@ import Sidebar from './global/Siderbar';
 import './App.css';
 
 function App() {
+  const user = localStorage.getItem("user")
+  const token = localStorage.getItem("token")
+  // const user = JSON.stringify(localStorage.getItem("user"))
+  // const token = JSON.stringify(localStorage.getItem("token"))
+
+  // const user = JSON.parse(localStorage.getItem("user"))
+  // const token = JSON.parse(localStorage.getItem("token"))
+
+  console.log("useruser App App",user)
+  console.log("tokentoken ",token)
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
 
@@ -26,19 +36,19 @@ function App() {
   return (
     <AuthProvider>
       {/* <Router> */}
-      <Navigation navigationLinks={navigationLinks} />
+      {!user && !token && <Navigation navigationLinks={navigationLinks} />}
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        {/* <Route
+      
+      {!user && !token && <Route path="/signin" element={<SignInPage />} />}
+      {!user && !token && <Route path="/signup" element={<SignUpPage />} />}
+        <Route
           path="/dashboard"
           element={
-            <PrivateRoute roles={['admin', 'user']}>
+            <PrivateRoute roles={['ADMIN', 'USER']}>
               <Dashboard />
             </PrivateRoute>
           }
-        /> */}
+        />
       </Routes>
       {/* <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>

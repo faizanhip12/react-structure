@@ -2,12 +2,14 @@
 import React, { useState } from 'react';
 import {useAuth} from '../context/AuthContext'
 import { useForm } from "react-hook-form";
-import {signIn} from '../utils/authApi'
+import {signIn} from '../utils/authApi';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import '../styles/SignInForm.css'; // Import CSS file for styling
 
 
 
 const SignInForm = () => {
+  const navigate = useNavigate(); 
   const { handleSubmit, register, formState: { errors } } = useForm();
   const [loginError, setLoginError] = useState(null); // State to hold login error
   const {login} =useAuth()
@@ -17,7 +19,8 @@ const SignInForm = () => {
     try {
       const response = await signIn(formData); // Call login API function
       console.log('Login successful:', response.data);
-      login({username:response.data.username,email:response.data.email},response.data.accessToken)
+      login({username:response.data.username,email:response.data.email,role:response.data.role},response.data.accessToken)
+      navigate("/dashboard")
       // Handle successful login, such as setting user session or redirecting
     } catch (error) {
       console.error('Login failed:', error);
