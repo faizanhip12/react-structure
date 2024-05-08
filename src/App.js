@@ -11,7 +11,6 @@ import PrivateRoute from './route/PrivateRoute';
 import Navigation from './components/Navigation';
 import Topbar from './global/Topbar';
 import Sidebar from './global/Siderbar';
-import CashPayment from './pages/SocketTesting'
 
 import './App.css';
 
@@ -37,7 +36,7 @@ function App() {
   return (
     <AuthProvider>
       {/* <Router> */}
-      {/* {!user && !token && <Navigation navigationLinks={navigationLinks} />}
+      {!user && !token && <Navigation navigationLinks={navigationLinks} />}
       <Routes>
       
       {!user && !token && <Route path="/signin" element={<SignInPage />} />}
@@ -50,8 +49,7 @@ function App() {
             </PrivateRoute>
           }
         />
-      </Routes> */}
-      <CashPayment/>
+      </Routes>
       {/* <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />

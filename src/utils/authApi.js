@@ -32,7 +32,7 @@ export const signIn =(data)=>{
 }
 
 
-export const signUp =(data)=>{
+export const signUp =async(data)=>{
   console.log("signup",data)
-  return axios.post("/auth/signup",data)
+  return await axios.post("auth/signup",data)
 }
